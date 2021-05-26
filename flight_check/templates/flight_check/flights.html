@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flight</title>
+  </head>
+  <body>
+    <h2>Origin: {{ flight.start_location }}</h2>
+    <h2>Destination: {{ flight.end_location }}</h2>
+
+    <h3>Passengers</h3>
+    <ul>
+      {% for passenger in passengers %}
+        <li>{{ passenger }}</li>
+      {% empty %}
+        <p>No passengers</p>
+      {% endfor %}
+    </ul>
+
+    <h3>Add Passenger</h3>
+    <form action="{% url 'book' flight.id%}" method="post">
+      {% csrf_token %}
+      <select name="passenger">
+        {% for passengers in non_passengers %}
+          <option value="{{ passengers.id }}">{{ passengers }}</option>
+        {% endfor%}
+      </select>
+      <input type="submit">
+    </form>
+    <a href="{% url 'index' %}">Home</a>
+  </body>
+</html>
